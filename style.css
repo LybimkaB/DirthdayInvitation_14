@@ -13,6 +13,10 @@ body {
     overflow-x: hidden;
     scroll-behavior: smooth;
 }
+button, .btn, .map-btn, .resp-btn {
+    -webkit-appearance: none;
+    appearance: none;
+}
 /* всплывающее уведомление */
 .notification {
     position: fixed;
