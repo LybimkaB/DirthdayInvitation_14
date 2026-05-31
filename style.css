@@ -614,3 +614,20 @@ footer {
     border-radius: 60px;
     font-size: 0.9rem;
 }
+button.map-btn,
+button.map-btn:active,
+button.map-btn:focus,
+button.map-btn:hover {
+    color: #2c3a1f !important;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff0db;
+    border: none;
+}
+button, 
+input[type="button"], 
+input[type="submit"] {
+    -webkit-appearance: none;
+    appearance: none;
+    color: #2c3a1f;
+}
