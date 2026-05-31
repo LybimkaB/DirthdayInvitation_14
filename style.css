@@ -274,6 +274,7 @@ body {
     cursor: pointer;
     transition: 0.2s;
     white-space: nowrap;
+    color: #2c3a1f;
 }
 @media (max-width: 520px) {
     .address-actions { gap: 0.6rem; }
