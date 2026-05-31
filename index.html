@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Приглашение на День Рождения | Карина</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Leaflet CSS (для карты, если используется, но у нас Яндекс – можно удалить, оставим для совместимости) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <!-- Подключаем внешние скрипты -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+    <!-- Яндекс Карты API -->
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ccb77405-4624-42d0-b7b3-0d6f6d1e1853&lang=ru_RU"></script>
+    <!-- Наши собственные стили и скрипты -->
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+<div class="floating-deco">
+    <div class="deco-item balloon" style="top: 12%; left: 3%;"></div>
+    <div class="deco-item balloon" style="top: 70%; left: 85%; width: 55px; height: 65px;"></div>
+    <div class="deco-item flower" style="bottom: 15%; left: 8%;">🌸</div>
+    <div class="deco-item flower" style="top: 30%; right: 5%;">🌼</div>
+    <div class="deco-item star" style="top: 20%; left: 15%;">⭐</div>
+    <div class="deco-item star" style="bottom: 25%; right: 20%;">✨</div>
+    <div class="deco-item confetti" style="top: 45%; left: 92%;"></div>
+    <div class="deco-item" style="top: 50%; left: 2%; font-size: 32px;">🎈</div>
+    <div class="deco-item" style="bottom: 8%; right: 6%; font-size: 48px;">🎉</div>
+</div>
+<div class="content">
+    <section class="hero fade-up">
+        <div class="emoji-big" style="font-size: 2.5rem;">🎈🎂</div>
+        <h1>Приглашение на День Рождения</h1>
+        <div class="date-badge"><i class="fas fa-calendar-alt"></i> 20 ИЮНЯ 2026 · 14:00 · Заимка, Чебоксарский район</div>
+        <div class="countdown" id="countdown">
+            <div class="countdown-item"><div class="countdown-number" id="days">00</div><div class="countdown-label">Дней</div></div>
+            <div class="countdown-item"><div class="countdown-number" id="hours">00</div><div class="countdown-label">Часов</div></div>
+            <div class="countdown-item"><div class="countdown-number" id="minutes">00</div><div class="countdown-label">Минут</div></div>
+            <div class="countdown-item"><div class="countdown-number" id="seconds">00</div><div class="countdown-label">Секунд</div></div>
+        </div>
+        <div class="btn-group">
+            <a href="#map" class="btn btn-primary"><i class="fas fa-map-marker-alt"></i> Как добраться?</a>
+            <a href="#rsvp" class="btn btn-outline"><i class="fas fa-heart"></i> Ответить на приглашение</a>
+        </div>
+    </section>
+
+    <h2 class="section-title fade-up">✨ Детали праздника</h2>
+    <section class="details-card fade-up">
+        <div class="detail-item"><i class="fas fa-sun"></i><h3>Летняя атмосфера</h3><p>20 июня, с 14:00 до 20:00 (ориентировочно)</p></div>
+        <div class="detail-item"><i class="fas fa-tree"></i><h3>Заимка</h3><p>Чебоксарский округ, свежий воздух</p></div>
+        <div class="detail-item"><i class="fas fa-utensils"></i><h3>Фуршет & танцы</h3><p>Хорошая компания, угощения, музыка, </p></div>
+        <div class="detail-item"><i class="fas fa-glass-cheers"></i><h3>Летний шик</h3><p>Яркие наряды и настроение</p></div>
+    </section>
+
+    <h2 id="map" class="section-title fade-up">📍 Место проведения</h2>
+    <section class="fade-up">
+        <div class="map-container" id="yandexMap" style="height: 380px; width: 100%;"></div>
+        <div class="address-actions">
+            <button id="buildRouteBtn" class="map-btn"><i class="fas fa-directions"></i> Построить маршрут</button>
+            <button id="copyAddressBtn" class="map-btn"><i class="fas fa-copy"></i> Скопировать адрес</button>
+        </div>
+        <div class="address-text">
+            <p style="text-align: center;"><i class="fas fa-location-dot"></i><strong> ЗАИМКА</strong></p> 
+            <span style="text-align: center;">Кукшумская ул., 47А, д. Чиршкасы (Синьяльское сельское поселение)</strong>
+            <span id="copyFeedback"></span>
+        </div>
+    </section>
+
+    <h2 class="section-title fade-up">📸 Фотографии места</h2>
+    <div class="gallery-scroll fade-up" id="galleryContainer">
+        <div class="gallery-card" data-img-src="images/zaimka.jpg">
+            <img class="gallery-img" src="images/zaimka.jpg" alt="Заимка" loading="lazy">
+            <div class="gallery-caption">🌳 Заимка</div>
+        </div>
+        <div class="gallery-card" data-img-src="images/table.jpg">
+            <img class="gallery-img" src="images/zaimka2.jpg" alt="Праздничный стол" loading="lazy">
+            <div class="gallery-caption">🍽 Праздничный стол</div>
+        </div>
+        <div class="gallery-card" data-img-src="images/evening.jpg">
+            <img class="gallery-img" src="images/zaimka3.jpg" alt="Вечерний костёр" loading="lazy">
+            <div class="gallery-caption">🎶 Вечерний костёр</div>
+        </div>
+        <div class="gallery-card" data-img-src="images/territory.jpg">
+            <img class="gallery-img" src="images/zaimka4.jpg" alt="Летнаяя поляна" loading="lazy">
+            <div class="gallery-caption">🎋 Летняя поляна</div>
+        </div>
+        <div class="gallery-card" data-img-src="images/evening.jpg">
+            <img class="gallery-img" src="images/zaimka5.jpg" alt="Активный отдых" loading="lazy">
+            <div class="gallery-caption">✨ Активный отдых</div>
+        </div>
+    </div>
+
+    <h2 class="section-title fade-up">🎁 Подарок</h2>
+    <div class="present-card fade-up">
+        <div class="present-icon">🎀</div>
+        <div class="present-text">
+            <p>Я знаю, как тяжело определиться с выбором подарка на любое торжество. Поэтому буду рада вашим пожеланиям в конвертах, ведь именно они помогут мне исполнить самые заветные желания! ✨</p>
+            <p>Но если вам хотелось бы подарить мне что-то особенное, я буду очень рада сохранить это на долгую память. 💝</p>
+        </div>
+        <div id="giftMessage" class="present-message"></div>
+    </div>
+
+    <section id="rsvp" class="rsvp-box fade-up">
+        <h2 style="margin-bottom: 1rem;"><i class="fas fa-party-horn"></i> Вы с нами?</h2>
+        <p style="margin-bottom: 1rem;">Нажмите на вариант — ваш ответ попадёт в Google Форму, и я увижу его</p>
+        <div class="response-buttons">
+            <button id="soloBtn" class="resp-btn solo"><i class="fas fa-user"></i> Приду один(а)</button>
+            <button id="plusBtn" class="resp-btn plus"><i class="fas fa-users"></i> Приду не один</button>
+            <button id="declineBtn" class="resp-btn no"><i class="fas fa-times-circle"></i> Откажусь</button>
+        </div>
+        <div id="rsvpMessage" style="margin-top: 16px;"></div>
+    </section>
+
+    <h2 class="section-title fade-up"><span class="emoji-icon">👥</span> Кто уже с нами</h2>
+    <section class="guest-list fade-up">
+        <div id="guestListContainer" class="guest-grid">
+            <div style="color:#8b7a5e; padding: 0.5rem; text-align: center;">✨ Список гостей обновлю после сбора ответов. ✨</div>
+        </div>
+    </section>
+
+    <footer>
+        <p>❤️ С нетерпением жду встречи! ❤️<br></p>
+        <p style="color:#8b7a5e; margin-top: 1rem; font-size: 0.8rem;">20 июня 2026 · 14:00 · Заимка, Чебоксарский район</p>
+        <p style="margin-top: 0.7rem; font-size: 0.8rem;">Сделано с <span style="color:#d13824;"><i>любовью </i></span>для родных и друзей!</p>
+    </footer>
+</div>
+
+<!-- Модальные окна -->
+<div id="responseModal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <h3 id="modalTitle"></h3>
+        <input type="text" id="modalName" placeholder="Ваше имя" autocomplete="off">
+        <div id="modalExtraField" style="display:none;">
+            <textarea id="modalCompanions" rows="2" placeholder="Напишите имена тех, кто с вами (через запятую)"></textarea>
+        </div>
+        <div id="modalError" class="modal-error"></div>
+        <button id="modalConfirmBtn">Отправить ответ</button>
+    </div>
+</div>
+
+<div id="confirmDeclineModal" class="modal">
+    <div class="modal-content" style="text-align: center;">
+        <span class="modal-close" id="closeDeclineModal">&times;</span>
+        <h3>😢 Ты уверен?</h3>
+        <p style="margin: 1rem 0;">
+            Будет море вкусняшек! 🍕🍣🍰<br>
+            Напитки, классная музыка и тонна хорошего настроения. 💃🕺<br><br>
+            <strong>Может, передумаешь?</strong>
+        </p>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+            <button id="confirmDeclineYes" class="resp-btn no">Да, отказываюсь</button>
+            <button id="confirmDeclineNo" class="resp-btn solo">Я иду!</button>
+        </div>
+    </div>
+</div>
+
+<div id="lightbox" class="lightbox">
+    <button class="lightbox-close">&times;</button>
+    <img id="lightboxImg" src="" alt="Увеличенное фото">
+</div>
+
+<div id="choiceModal" class="modal">
+    <div class="modal-content" style="text-align: center; max-width: 350px;">
+        <span class="modal-close" id="closeChoiceModal">&times;</span>
+        <h3>🎉 Ура! Как планируете прийти?</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem; margin: 1.5rem 0;">
+            <button id="choiceSoloBtn" class="resp-btn solo" style="justify-content: center;">Приду один(а)</button>
+            <button id="choicePlusBtn" class="resp-btn plus" style="justify-content: center;">Приду не один</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
